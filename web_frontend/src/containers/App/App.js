@@ -12,14 +12,11 @@ export default class App extends Component {
   };
 
   render() {
-    const styles = require('./App.scss');
-
+    require('theme/main.scss');
     return (
-      <div className={styles.app}>
+      <div>
         <Helmet {...config.app.head}/>
-        <div className={styles.appContent}>
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }

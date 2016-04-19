@@ -1,0 +1,24 @@
+{
+  "name": "Lucy25-web-server",
+  "version": "0.0.1",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/suribit/Lucy25.git"
+  },
+  "author": "Sergei Waribrus suribit <wss.world@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^5.8.21",
+    "body-parser": "^1.13.3",
+    "compression": "^1.5.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "resource-router-middleware": "^0.5.1",
+    "node-readability": "2.2.0"
+  }
+}

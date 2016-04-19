@@ -4,6 +4,7 @@ import { routeReducer } from 'react-router-redux';
 import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 
 import counter from './counter';
+import Clean from './clean';
 import {reducer as form} from 'redux-form';
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
     counter1: counter,
     counter2: counter,
     counter3: counter
-  })
+  }),
+  clean: Clean
 });
