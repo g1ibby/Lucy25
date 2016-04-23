@@ -1,5 +1,5 @@
 import resource from 'resource-router-middleware';
-var read = require('node-readability');
+var read = require('../../readability');
 
 export default resource({
 
