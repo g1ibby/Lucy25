@@ -3,11 +3,14 @@ import express, {Router} from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import api from './api';
+var mongoose = require('mongoose');
+
+
+mongoose.connect('mongodb://localhost:27017/lucy25');
 
 var app = express();
 app.server = http.createServer(app);
 
-// 3rd party middleware
 app.use(cors({
 	exposedHeaders: ['Link']
 }));

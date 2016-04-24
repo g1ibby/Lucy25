@@ -27,6 +27,7 @@ module.exports.setCleanRules = function(rules) {
 };
 
 /**
+ * Чистим страницу от мусора
  * Prepare the HTML document for readability to scrape it.
  * This includes things like stripping javascript, CSS, and handling terrible markup.
  *
@@ -78,16 +79,21 @@ var prepDocument = module.exports.prepDocument = function(document) {
  **/
 var grabArticle = module.exports.grabArticle = function(document, preserveUnlikelyCandidates) {
   /**
+   * Чистим страницу от муссора, удаляем маловероятные блоки
+   *
    * First, node prepping. Trash nodes that look cruddy (like ones with the class name "comment", etc), and turn divs
    * into P tags where they have been used inappropriately (as in, where they contain no other block level elements.)
    *
    * Note: Assignment from index for performance. See http://www.peachpit.com/articles/article.aspx?p=31567&seqNum=5
    * TODO: Shouldn't this be a reverse traversal?
    **/
+  // Выбираем все элементы на странице
   var nodes = document.getElementsByTagName('*');
   for (var i = 0; i < nodes.length; ++i) {
     var node = nodes[i];
     // Remove unlikely candidates */
+    // Если класс или ид входит в шаблон нежелательных названий то удаляем данный узел
+    // Например /combx|modal|lightbox|comment|disqus|foot|header|menu|meta|nav
     var continueFlag = false;
     if (!preserveUnlikelyCandidates) {
       var unlikelyMatchString = node.className + node.id;
@@ -98,14 +104,17 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
       }
     }
 
+    // Если узел небыл удален, то проверяем не является ли этот элемен дивом и можно ли его преобразовать в P
     // Turn all divs that don't have children block level elements into p's
     if (!continueFlag && node.tagName === 'DIV') {
+      // Если он содержит только текст то переделаем его в P
       if (node.innerHTML.search(regexps.divToPElementsRe) === -1) {
         dbg("Altering div to p");
         var newNode = document.createElement('p');
         newNode.innerHTML = node.innerHTML;
         node.parentNode.replaceChild(newNode, node);
       } else {
+        // Тоже самое только переделываем в span
         // EXPERIMENTAL
         Array.prototype.slice.call(node.childNodes).forEach(function(childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
@@ -121,6 +130,10 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
   }
 
   /**
+   * Пройдемся по всем параграфам и назначим кождому из них некий численный показатель
+   * который будет стротится из того как этот параграфа выглядит, сколько у него текста
+   * сколько запятых, и как называется класс
+   *
    * Loop through all paragraphs, and assign a score to them based on how content-y they look.
    * Then add their score to their parent node.
    *
@@ -308,7 +321,7 @@ var getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
 
   if (normalizeSpaces) return textContent.replace(regexps.normalizeRe, " ");
   else return textContent;
-}
+};
 
 /**
  * Get the number of times a string s appears in the node e.

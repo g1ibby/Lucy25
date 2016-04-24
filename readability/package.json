@@ -8,9 +8,6 @@
     "type": "git",
     "url": "git://github.com/luin/node-readability.git"
   },
-  "bin": {
-    "readability": "./src/cli.js"
-  },
   "scripts": {
     "test": "mocha -R spec"
   },

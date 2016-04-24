@@ -8,7 +8,7 @@ exports.debug = function(debug) {
   helpers.debug(debug);
 };
 
-exports.debug(false);
+exports.debug(true);
 
 function Readability(window, options) {
   this._window = window;
@@ -122,7 +122,7 @@ Readability.prototype.getTextBody = function(notDeprecated) {
   }
 
   return this.cache['article-text-body'] = textBody;
-}
+};
 
 Readability.prototype.getDocument = function(notDeprecated) {
   if (!notDeprecated) {

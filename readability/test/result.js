@@ -14,16 +14,6 @@ describe('result', function() {
     });
   });
 
-  it('should get document with frames', function(done) {
-    read('http://www.whitehouse.gov/', function(err, read) {
-      var dom = read.document;
-      read.title.should.equal('The White House');
-      read.close.should.be.a.Function
-      read.close();
-      done();
-    });
-  });
-
   it('should handle frames', function(done) {
     read('<html><body><frame /><frame />Hello world!</body></html>', function(err, read) {
       read.document.body.innerHTML.should.include('Hello world!');
