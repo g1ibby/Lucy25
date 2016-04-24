@@ -41,7 +41,7 @@ export function load(url) {
     types: [CLEAN, CLEAN_SUCCESS, CLEAN_FAIL],
     promise: (client) => {
       return new Promise((resolve) => {
-        client.get('/clean', {params: { url }}, true).then(
+        client.get('clean', {params: { url }}, true).then(
           (result) => {
             resolve({content: result.content, title: result.title});
           },

@@ -8,7 +8,7 @@ exports.debug = function(debug) {
   helpers.debug(debug);
 };
 
-exports.debug(true);
+exports.debug(false);
 
 function Readability(window, options) {
   this._window = window;
