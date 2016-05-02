@@ -1,6 +1,5 @@
 var url = require("url");
 
-// All of the regular expressions in use within readability.
 var regexps = {
   unlikelyCandidatesRe: /combx|modal|lightbox|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor|social|teaserlist|time|tweet|twitter/i,
   okMaybeItsACandidateRe: /and|article|body|column|main/i,
