@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +17,9 @@
     "body-parser": "^1.15.0",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
+    "encoding": "^0.1.12",
     "express": "^4.13.3",
+    "jsdom": "^9.1.0",
     "jsonwebtoken": "^5.7.0",
     "mongoose": "4.4.13",
     "mongoose-user": "0.0.1",
