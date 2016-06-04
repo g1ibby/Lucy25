@@ -1,18 +1,18 @@
-"use strict";
-var LocalStrategy = require("passport-local").Strategy;
-var authenticator = require("../lib/authenticator");
-var User = require("mongoose").model("User");
+import mongoose from 'mongoose';
+let BearerStrategy = require('passport-http-bearer').Strategy;
+let authenticator = require('../lib/authenticator');
+let ModelUser = mongoose.model('Users');
 
-var serialize = function(user, done) {
+let serialize = function(user, done) {
   done(null, user._id);
 };
 
-var deserialize = function(id, done) {
-  User.findById(id, done);
+let deserialize = function(id, done) {
+  ModelUser.findById(id, done);
 };
 
-module.exports = function(passport, config) {
+module.exports = function(passport) {
   passport.serializeUser(serialize);
   passport.deserializeUser(deserialize);
-  passport.use(new LocalStrategy(authenticator.localUser));
+  passport.use(new BearerStrategy(authenticator.bearerUser));
 };
