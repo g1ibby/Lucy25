@@ -27,7 +27,10 @@ module.exports.setCleanRules = function(rules) {
 };
 
 /**
- * Чистим страницу от мусора
+ * Чистим страницу от мусора, по факту проверяем есть ли у нас frame
+ * Мы проверяем есть ли у нас фрайм который точно будет являть главный контетом
+ * Это происходит если frame вообще есть на странице
+ *
  * Prepare the HTML document for readability to scrape it.
  * This includes things like stripping javascript, CSS, and handling terrible markup.
  *
@@ -39,6 +42,7 @@ var prepDocument = module.exports.prepDocument = function(document) {
     var bestFrame = null;
     var bestFrameSize = 0;
 
+    // Ищем самый большой фрайм по физичиским размерам
     Array.prototype.slice.call(frames, 0).forEach(function(frame) {
       var frameSize = frame.offsetWidth + frame.offsetHeight;
       var canAccessFrame = false;
@@ -75,6 +79,8 @@ var prepDocument = module.exports.prepDocument = function(document) {
  * grabArticle - Using a variety of metrics (content score, classname, element types), find the content that is
  *               most likely to be the stuff a user wants to read. Then return it wrapped up in a div.
  *
+ * grabArticle - Использование различных показателей (содержание оценка, Classname, типы элементов), найти содержание, которое
+ * скорее всего, будет материал, пользователь хочет читать. Затем вернуть его, завернутый в DIV.
  * @return Element
  **/
 var grabArticle = module.exports.grabArticle = function(document, preserveUnlikelyCandidates) {
@@ -83,6 +89,8 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
    *
    * First, node prepping. Trash nodes that look cruddy (like ones with the class name "comment", etc), and turn divs
    * into P tags where they have been used inappropriately (as in, where they contain no other block level elements.)
+   * Во-первых, узел готовя. Мусорные узлы, которые выглядят Cruddy (например, те, с именем класса "комментарий", и т.д.), и превратить дивы
+   * в P тегов, где они были использованы ненадлежащим образом (например если они пусты)
    *
    * Note: Assignment from index for performance. See http://www.peachpit.com/articles/article.aspx?p=31567&seqNum=5
    * TODO: Shouldn't this be a reverse traversal?
@@ -131,7 +139,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
 
   /**
    * Пройдемся по всем параграфам и назначим кождому из них некий численный показатель
-   * который будет стротится из того как этот параграфа выглядит, сколько у него текста
+   * который будет получаться из того как этот параграфа выглядит, сколько у него текста
    * сколько запятых, и как называется класс
    *
    * Loop through all paragraphs, and assign a score to them based on how content-y they look.
@@ -139,42 +147,51 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
    *
    * A score is determined by things like number of commas, class names, etc. Maybe eventually link density.
    **/
+   // Выбираем все параграфы
   var allParagraphs = document.getElementsByTagName("p");
+  // Массив для вероятных кандидатов
   var candidates = [];
 
   for (var i = 0; i < allParagraphs.length; ++i) {
     var paragraph = allParagraphs[i];
-    var parentNode = paragraph.parentNode;
-    var grandParentNode = parentNode.parentNode;
-    var innerText = getInnerText(paragraph);
+    var parentNode = paragraph.parentNode; // родитель для выбранного параграфа
+    var grandParentNode = parentNode.parentNode; // Дедушка для параграфа
+    var innerText = getInnerText(paragraph); // Получаем текстовое содержание данного параграфа
 
     // If this paragraph is less than 25 characters, don't even count it.
+    // Если этот параграф меньше, чем 25 символов, даже не рассмативаем его
     if (innerText.length < 25) continue;
 
     // Initialize readability data for the parent.
+    // Инициализировать readability читаемость для родителя.
     if (typeof parentNode.readability == 'undefined') {
       initializeNode(parentNode);
-      candidates.push(parentNode);
+      candidates.push(parentNode);  // добавим родителя в кандидаты
     }
 
     // Initialize readability data for the grandparent.
+    // Инициализировать readability читаемость для дедушки.
     if (typeof grandParentNode.readability == 'undefined') {
       initializeNode(grandParentNode);
-      candidates.push(grandParentNode);
+      candidates.push(grandParentNode); // добавим прородителя в кандидаты
     }
 
     var contentScore = 0;
 
     // Add a point for the paragraph itself as a base. */
+    // Добавьте точку для самого пункта в качестве основы
     ++contentScore;
 
     // Add points for any commas within this paragraph */
+    // Добавление точек для любых запятых в данном пункте, каждая запятая в данном парагфе будет считаться за один бал
     contentScore += innerText.replace('，', ',').split(',').length;
 
     // For every 100 characters in this paragraph, add another point. Up to 3 points. */
+    // На каждые 100 символов в этом пункте, добавьте еще одну точку. До 3-х очков.
     contentScore += Math.min(Math.floor(innerText.length / 100), 3);
 
     // Add the score to the parent. The grandparent gets half. */
+    // Добавьте счет к родителю. Прародитель получает половину.
     parentNode.readability.contentScore += contentScore;
     grandParentNode.readability.contentScore += contentScore / 2;
   }
@@ -183,12 +200,17 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
   /**
    * After we've calculated scores, loop through all of the possible candidate nodes we found
    * and find the one with the highest score.
+   *
+   * После того, как мы рассчитывали оценки, цикл через все возможные узлы-кандидаты, которые мы нашли
+   * И найти тот, с наибольшим количеством очков.
    **/
   var topCandidate = null;
   candidates.forEach(function(candidate) {
     /**
      * Scale the final candidates score based on link density. Good content should have a
      * relatively small link density (5% or less) and be mostly unaffected by this operation.
+     * Масштаб окончательных кандидатов оценка на основе плотности компоновки. Хорошее содержание должно иметь
+     * Относительно небольшую плотность ссылок (5% или менее) и быть в основном не зависит от этой операции.
      **/
     candidate.readability.contentScore = candidate.readability.contentScore * (1 - getLinkDensity(candidate));
 
@@ -198,8 +220,11 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
   });
 
   /**
+   * ---- Не столь важно ----
    * If we still have no top candidate, just use the body as a last resort.
    * We also have to copy the body node so it is something we can modify.
+   * Если мы до сих пор не имеют верхнего кандидата, просто использовать тело в качестве последнего средства.
+   * Мы также должны скопировать узел тела, так это то, что мы можем изменить.
    **/
   if (topCandidate === null || topCandidate.tagName === 'BODY') {
     // With no top candidate, bail out if no body tag exists as last resort.
@@ -217,6 +242,8 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
   /**
    * Now that we have the top candidate, look through its siblings for content that might also be related.
    * Things like preambles, content split by ads that we removed, etc.
+   * Теперь, когда у нас есть топ-кандидата, смотреть через своих братьев и сестер по содержанию, которые также могут быть связаны между собой.
+   * Такие вещи, как преамбул, разделение контента по объявлениям, которые мы удалили и т.д.
    **/
   var articleContent = document.createElement('DIV');
   articleContent.id = 'readability-content';
@@ -253,6 +280,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
       dbg("Appending node: " + siblingNode);
 
       /* Append sibling and subtract from our list because it removes the node when you append to another node */
+      // Append родного брата и вычесть из нашего списка, поскольку он удаляет узел, когда вы добавляете в другой узел
       articleContent.appendChild(siblingNode);
       i--;
       il--;
@@ -261,6 +289,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
 
   /**
    * So we have all of the content that we need. Now we clean it up for presentation.
+   * Таким образом, у нас есть все содержание, что нам нужно. Теперь мы чистим его для презентации.
    **/
   prepArticle(articleContent);
 
@@ -269,6 +298,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
 
 /**
  * Remove the style attribute on every e and under.
+ * Удалите атрибут стиля на каждом е и под.
  *
  * @param Element
  * @return void
@@ -296,6 +326,7 @@ function cleanStyles(e) {
 
 /**
  * Remove extraneous break tags from a node.
+ * Удалить посторонние метки перерыв от узла
  *
  * @param Element
  * @return void
@@ -308,6 +339,8 @@ function killBreaks(e) {
 /**
  * Get the inner text of a node - cross browser compatibly.
  * This also strips out any excess whitespace to be found.
+ * Получить внутренний текст узла - перекрестной совместимости браузера.
+ * Это также приводит к удалению избытка пробелов можно найти.
  *
  * @param Element
  * @return string
@@ -325,6 +358,7 @@ var getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
 
 /**
  * Get the number of times a string s appears in the node e.
+ * Получить количество раз строка s появится в узле е.
  *
  * @param Element
  * @param string - what to split on. Default is ","
@@ -338,6 +372,8 @@ function getCharCount(e, s) {
 /**
  * Get the density of links as a percentage of the content
  * This is the amount of text that is inside a link divided by the total text in the node.
+ * Получить плотность звеньев в процентах от содержания
+ * Это количество текста, который находится внутри ссылки, деленное на общее текст в узле.
  *
  * @param Element
  * @return number (float)
@@ -359,6 +395,8 @@ function getLinkDensity(e) {
 /**
  * Get an elements class/id weight. Uses regular expressions to tell if this
  * element looks good or bad.
+ * Получить / вес ID элементов класса. Использование регулярных выражений, чтобы сказать, если это
+ * Элемент выглядит хорошо или плохо.
  *
  * @param Element
  * @return number (Integer)
@@ -386,6 +424,8 @@ function getClassWeight(e) {
 /**
  * Clean a node of all elements of type "tag".
  * (Unless it's a youtube/vimeo video. People love movies.)
+ * Очистите узел всех элементов типа "тега".
+ * (Если это не будет YouTube / Vimeo видео. Люди любят фильмы.)
  *
  * @param Element
  * @param string tag to clean
@@ -426,6 +466,8 @@ function clean(e, tag) {
 /**
  * Clean an element of all tags of type "tag" if they look fishy.
  * "Fishy" is an algorithm based on content length, classnames, link density, number of images & embeds, etc.
+ * Очистите элемент всех тегов "метки" типа, если они выглядят тусклый.
+ * "Подозрительное" является алгоритм, основанный на длине контента, названий класса, плотность линии связи, количество изображений, и встраивает и т.д.
  *
  * @return void
  **/
@@ -436,6 +478,8 @@ function cleanConditionally(e, tag) {
   /**
    * Gather counts for other typical elements embedded within.
    * Traverse backwards so we can remove nodes at the same time without effecting the traversal.
+   * Сбор счетчиков для других типичных элементов, внедренных в.
+   * Обход в обратном направлении таким образом, мы можем удалять узлы в то же время не оказывая влияния на ВТП.
    *
    * TODO: Consider taking into account original contentScore here.
    **/
@@ -450,6 +494,11 @@ function cleanConditionally(e, tag) {
       /**
        * If there are not very many commas, and the number of
        * non-paragraph elements is more than paragraphs or other ominous signs, remove the element.
+       **/
+
+       /**
+       *Если не очень много запятых, а количество
+       * без абзацев элементов больше, чем пунктов или других зловещими признаками, удалите этот элемент.
        **/
 
       var p = tagsList[i].getElementsByTagName("p").length;
@@ -495,6 +544,7 @@ function cleanConditionally(e, tag) {
 
 /**
  * Converts relative urls to absolute for images and links
+ * Преобразование относительных URL-адресов в абсолютные для изображений и ссылок
  **/
 function fixLinks(e) {
   if (!e.ownerDocument.originalURL) {
@@ -526,6 +576,7 @@ function fixLinks(e) {
 
 /**
  * Clean out spurious headers from an Element. Checks things like classnames and link density.
+ * Очистите паразитные заголовки от элемента. Проверяет такие вещи, как имена классов и плотности компоновки.
  *
  * @param Element
  * @return void
@@ -543,6 +594,7 @@ function cleanHeaders(e) {
 
 /**
  * Remove the header that doesn't have next sibling.
+ * Удалить заголовок, который не имеет следующий родственный.
  *
  * @param Element
  * @return void
@@ -565,6 +617,7 @@ function prepArticle(articleContent) {
   killBreaks(articleContent);
 
   /* Clean out junk from the article content */
+  // Очистите мусор из содержания статьи
   clean(articleContent, 'form');
   clean(articleContent, 'object');
   if (articleContent.getElementsByTagName('h1').length === 1) {
@@ -573,6 +626,8 @@ function prepArticle(articleContent) {
   /**
    * If there is only one h2, they are probably using it
    * as a header and not a subheader, so remove it since we already have a header.
+   * Если существует только один H2, они, вероятно, использовать его
+   * В качестве заголовка, а не подзаголовка, так что удалить его, так как у нас уже есть заголовок.
    ***/
   if (articleContent.getElementsByTagName('h2').length === 1) clean(articleContent, "h2");
 
@@ -581,11 +636,13 @@ function prepArticle(articleContent) {
   cleanHeaders(articleContent);
 
   /* Do these last as the previous stuff may have removed junk that will affect these */
+  // Выполните эти последние, как и предыдущий материал может быть удален мусор, которые будут влиять на эти
   cleanConditionally(articleContent, "table");
   cleanConditionally(articleContent, "ul");
   cleanConditionally(articleContent, "div");
 
   /* Remove extra paragraphs */
+  // Удалить лишние пункты
   var articleParagraphs = articleContent.getElementsByTagName('p');
   for (var i = articleParagraphs.length - 1; i >= 0; i--) {
     var imgCount = articleParagraphs[i].getElementsByTagName('img').length;
@@ -611,6 +668,8 @@ function prepArticle(articleContent) {
 /**
  * Initialize a node with the readability object. Also checks the
  * className/id for special names to add to its score.
+ * Инициализировать узел с объектом читаемости. Также проверяет
+ * Класс Name / ID для специальных имен, чтобы добавить к его счет.
  *
  * @param Element
  * @return void

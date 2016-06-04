@@ -10,22 +10,25 @@ exports.debug = function(debug) {
 
 exports.debug(true);
 
+// Функция обвертка для парсера
 function Readability(window, options) {
-  this._window = window;
+  this._window = window; // Распарсенное дерево html с помощью jsdom
   this._document = window.document;
   this.iframeLoads = 0;
-  // Cache the body HTML in case we need to re-use it later
+  // Если нужно кэшируем страницу
   this.bodyCache = null;
   this._articleContent = '';
   helpers.setCleanRules(options.cleanRulers || []);
 
   this.cache = {};
 
+  // Очищаем страницу от муссора
   helpers.prepDocument(this._document);
   this.cache = {
     'body': this._document.body.innerHTML
   };
 
+  // Определяем гетеры
   this.__defineGetter__('content', function() {
     return this.getContent(true);
   });
@@ -55,11 +58,14 @@ Readability.prototype.getContent = function(notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getContent()` is deprecated, using `content` property instead.');
   }
+  // Если данные метод у данного объекта вызывался, то больше не будем его вызывать
   if (typeof this.cache['article-content'] !== 'undefined') {
     return this.cache['article-content'];
   }
 
+  // Вызываем функцию захвата текста
   var articleContent = helpers.grabArticle(this._document);
+  // Если не удалось выделить внутренний текст
   if (helpers.getInnerText(articleContent, false) === '') {
     this._document.body.innerHTML = this.cache.body;
     articleContent = helpers.grabArticle(this._document, true);
@@ -184,6 +190,8 @@ function _parseContentType(str) {
   };
 }
 
+// Функция которая будет вызываться первой
+// Определяет передана строка с версткой или URL, нужно ли загружать страницу с интернета
 function read(html, options, callback) {
   if (typeof options === 'function') {
     callback = options;
@@ -230,6 +238,7 @@ function read(html, options, callback) {
     });
   }
 
+  // Функция для парсинга
   function jsdomParse(error, meta, body) {
     if (error) {
       return callback(error);
@@ -237,6 +246,7 @@ function read(html, options, callback) {
 
     if (typeof body !== 'string') body = body.toString();
     if (!body) return callback(new Error('Empty story body returned from URL'));
+    // jsdom - библиотека для парсинга строки с HTML кодом
     jsdom.env({
       html: body,
       done: function(errors, window) {
@@ -255,15 +265,15 @@ function read(html, options, callback) {
           return callback(new Error('No body tag was found.'));
         }
 
+        // Если все нормально распарсилось то доойдем сюда
         try {
+          // !!!!!!!!!!!! будет очищать дерево от мусора !!!!!!!!!!!!
           var readability = new Readability(window, options);
-
-          // add meta information to callback
+          // вызвать калбэк функцию в которую передадим уже чисты html код
           callback(null, readability, meta);
         } catch (ex) {
           window.close();
           return callback(ex);
-
         }
       }
     });
