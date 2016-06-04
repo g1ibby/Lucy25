@@ -1,8 +1,8 @@
 import memoize from 'lru-memoize';
-import {createValidator, required, email, minLength} from 'utils/validation';
+import {createValidator, required, minLength} from 'utils/validation';
 
 const loginValidation = createValidator({
-  username: [required, email],
+  username: [required],
   password: [required, minLength(7)]
 });
 

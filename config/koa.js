@@ -6,6 +6,7 @@ const logger = require("koa-logger");
 const compress = require("koa-compress");
 const errorHandler = require("koa-error");
 const bodyParser = require("koa-bodyparser");
+const cors = require('kcors');
 
 const STATIC_FILES_MAP = {};
 const SERVE_OPTIONS = { maxAge: 365 * 24 * 60 * 60 };
@@ -31,4 +32,5 @@ module.exports = function(app, config, passport) {
 
   app.use(compress());
   app.use(responseTime());
+  app.use(cors());
 };

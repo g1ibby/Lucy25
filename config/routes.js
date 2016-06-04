@@ -25,7 +25,7 @@ module.exports = function(app, passport) {
     this.body = { home: "This home page" };
   });
 
-  router.get("/auth", authController.getCurrentUser);
+  router.get("/bootstrap", authController.getCurrentUser);
   router.post("/auth", authController.signIn);
 
   router.all("/signout", authController.signOut);

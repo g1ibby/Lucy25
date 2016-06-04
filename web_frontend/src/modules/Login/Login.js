@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/auth';
 import LoginForm from './LoginForm';
-import {reset as resetForm} from 'redux-form';
+import { reset as resetForm } from 'redux-form';
 
 @connect(
   null,

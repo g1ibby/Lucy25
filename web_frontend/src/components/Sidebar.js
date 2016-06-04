@@ -32,7 +32,7 @@ export default class Sidebar extends Component {
                 <Collapse className="collapse in">
                   <div className="item user-block">
                     <div className="user-block-info">
-                      <b className="user-block-name">{user.fname} {user.sname}
+                      <b className="user-block-name">{user.username}
                         <Link to="/profile" style={{'marginLeft': '5px'}}>
                           <em className="icon-settings" />
                         </Link>

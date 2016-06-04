@@ -120,9 +120,9 @@ export function login(username, password) {
             'password': password
           }
         }, false).then(
-          (result) => {
-            Cookies.set('access_token', result.access_token);
-            Cookies.set('refresh_token', result.refresh_token);
+          () => {
+            Cookies.set('access_token', 'faick');
+            Cookies.set('refresh_token', 'faick');
             resolve({login: true});
           },
           (error) => {
