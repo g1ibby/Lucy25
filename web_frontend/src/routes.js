@@ -1,19 +1,49 @@
 import React from 'react';
-import {IndexRoute, Route} from 'react-router';
+import {IndexRedirect, Route} from 'react-router';
+import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
-    Home,
     NotFound,
-    Clean
   } from 'containers';
 
-export default () => {
+import Protected from 'components/Wrappers/Protected';
+import Public from 'components/Wrappers/Public';
+
+import Home from 'modules/Home/Home';
+import Login from 'modules/Login/Login';
+
+
+export default (store) => {
+  const requireLogin = (nextState, replace, cb) => {
+    function checkAuth() {
+      const { auth: { user }} = store.getState();
+      if (!user) {
+        replace('/login');
+      }
+      cb();
+    }
+
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth, checkAuth);
+    } else {
+      checkAuth();
+    }
+  };
+
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="clean/:url" component={Clean} />
 
-      <Route path="*" component={NotFound} status={404} />
+      <Route component={Protected} onEnter={requireLogin}>
+        <IndexRedirect to="/home"/>
+        <Route path="home" component={Home}/>
+
+      </Route>
+
+      <Route component={Public}>
+        <Route path="login" component={Login} onEnter={Login.onEnter(store)}/>
+          <Route path="*" component={NotFound} status={404} />
+      </Route>
+
     </Route>
   );
 };

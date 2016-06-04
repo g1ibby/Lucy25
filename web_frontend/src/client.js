@@ -1,3 +1,6 @@
+/**
+ * THIS IS THE ENTRY POINT FOR THE CLIENT, JUST LIKE server.js IS THE ENTRY POINT FOR THE SERVER.
+ */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,7 +27,7 @@ const component = (
 );
 
 ReactDOM.render(
-  <Provider store={store} key="provider">
+  <Provider store={store} key="provider" style={{height: '100%'}}>
     {component}
   </Provider>,
   dest
@@ -41,8 +44,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (__DEVTOOLS__ && !window.devToolsExtension) {
   const DevTools = require('./containers/DevTools/DevTools');
   ReactDOM.render(
-    <Provider store={store} key="provider">
-      <div>
+    <Provider store={store} key="provider" style={{height: '100%'}}>
+      <div style={{height: '100%'}}>
         {component}
         <DevTools />
       </div>

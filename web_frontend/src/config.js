@@ -14,8 +14,8 @@ module.exports = Object.assign({
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
-  apiUrlClient: 'http://localhost',
-  apiUrlServer: 'http://localhost',
+  apiUrlClient: 'http://localhost:3031',
+  apiUrlServer: 'http://localhost:3031',
   app: {
     title: 'Lucy25',
     description: 'Lucy25',

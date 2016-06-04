@@ -8,11 +8,16 @@
 
 module.exports = {
   styles: {
-    mixins: true,
-    core: true,
-    icons: true,
-    larger: true,
-    path: true,
-    animated: true,
+    'mixins': true,
+    'bordered-pulled': true,
+    'core': true,
+    'fixed-width': true,
+    'icons': true,
+    'larger': true,
+    'list': true,
+    'path': true,
+    'rotated-flipped': true,
+    'animated': true,
+    'stacked': true
   }
 };

@@ -1,3 +1,5 @@
+const TOKEN_INCORRECT = 'app/auth/TOKEN_INCORRECT';
+
 export default function clientMiddleware(client) {
   return ({dispatch, getState}) => {
     return next => action => {
@@ -16,7 +18,13 @@ export default function clientMiddleware(client) {
       const actionPromise = promise(client);
       actionPromise.then(
         (result) => next({...rest, result, type: SUCCESS}),
-        (error) => next({...rest, error, type: FAILURE})
+        (error) => {
+          if (error.status === 'TOKEN_INCORRECT') {
+            next({...rest, error, type: TOKEN_INCORRECT});
+          } else {
+            next({...rest, error, type: FAILURE});
+          }
+        }
       ).catch((error)=> {
         console.error('MIDDLEWARE ERROR:', error);
         next({...rest, error, type: FAILURE});

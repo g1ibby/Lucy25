@@ -5,7 +5,8 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 
 export default createDevTools(
   <DockMonitor toggleVisibilityKey="ctrl-H"
-               changePositionKey="ctrl-Q">
+               changePositionKey="ctrl-Q"
+               defaultSize={0.2}>
     <LogMonitor />
   </DockMonitor>
 );
