@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 const passport = require('koa-passport');
 
-import {byId, list, create, update} from '../models/service/tag';
+import {byId, list, create, update} from '../service/tag';
 
 export default function() {
   let router = new Router();

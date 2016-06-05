@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import oauthserver from 'koa-oauth-server';
 import mongoose from 'mongoose';
 
-let authModel = require('../models/entity/models_auth');
+let authModel = require('../models/models_auth');
 
 export default function() {
   let router = new Router();
