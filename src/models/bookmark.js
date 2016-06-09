@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 let Schema = mongoose.Schema;
 
 // Create Schema
-let ArticleSchema = new mongoose.Schema({
+let BookmarkSchema = new mongoose.Schema({
   user: {type: Schema.ObjectId, ref: 'Users'},
+  url: {type: String, default: '', trim: true},
   title: {type: String, default: '', trim: true},
   subtitle: {type: String, default: '', trim: true},
   body: {type: String, default: '', trim: true},
-  tags: [{type: Schema.ObjectId, ref: 'Tag'}],
-  views: {type: Number, default: 0},
+  tag: {type: Schema.ObjectId, ref: 'Tag'},
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date}
 }, {
@@ -22,20 +22,21 @@ let ArticleSchema = new mongoose.Schema({
   }
 });
 
-ArticleSchema.virtual('createdAtT').get(function() {
+BookmarkSchema.virtual('createdAtT').get(function() {
   return String(this.createdAt.getTime());
 });
 
-ArticleSchema.virtual('updatedAtT').get(function() {
+BookmarkSchema.virtual('updatedAtT').get(function() {
   return (this.updatedAt) ? String(this.updatedAt.getTime()) : '';
 });
 
-ArticleSchema.pre('update', function() {
+BookmarkSchema.pre('update', function() {
   this.update({}, {$set: {updatedAt: new Date()}});
 });
 
 // Validations
-ArticleSchema.path('title').required(true, 'News title cannot be blank');
-ArticleSchema.path('body').required(true, 'News body cannot be blank');
+BookmarkSchema.path('url').required(true, 'News url cannot be blank');
+BookmarkSchema.path('title').required(true, 'News title cannot be blank');
+BookmarkSchema.path('subtitle').required(true, 'News subtitle cannot be blank');
 
-mongoose.model('Article', ArticleSchema);
+mongoose.model('Bookmark', BookmarkSchema);

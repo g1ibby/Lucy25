@@ -1,15 +1,8 @@
 import mongoose from 'mongoose';
 
-function*byId(id, user_id) {
+function*byId(id) {
   const TagModel = mongoose.model('Tag');
-  let tag = yield TagModel.findOne({_id: id, user: user_id}).exec();
-  yield tag.save();
-  return tag;
-}
-
-function*byName(name, user_id) {
-  const TagModel = mongoose.model('Tag');
-  let tag = yield TagModel.findOne({name: name, user: user_id}).exec();
+  let tag = yield TagModel.findOne({_id: id}).exec();
   yield tag.save();
   return tag;
 }
@@ -45,4 +38,4 @@ function*update(id, data, user) {
   };
 }
 
-export {byId, byName, list, create, update};
+export {byId, list, create, update};

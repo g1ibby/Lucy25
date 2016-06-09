@@ -8,6 +8,7 @@ const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   let adjustedPath = path[0] !== '/' ? '/' + path : path;
+  adjustedPath = '/api' + adjustedPath;
 
   let apiUrl = config.apiUrlClient;
   if (__SERVER__) {
@@ -33,9 +34,8 @@ class _ApiClient {
           if (options && options.params) {
             request.query(options.params);
           }
-
-          if (options && options.file) {
-            request.attach(options.file.name, options.file);
+          if (path.includes('/token')) {
+            request.type('form');
           }
 
           if (isAuth) {

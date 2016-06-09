@@ -6,6 +6,8 @@ import auth from './auth';
 import {reducer as form} from 'redux-form';
 import entities from './entities';
 import progress from './progress';
+import tag from './tag';
+import bookmark from './bookmark';
 
 export default combineReducers({
   routing: routeReducer,
@@ -14,4 +16,6 @@ export default combineReducers({
   progress,
   form,
   entities,
+  tag,
+  bookmark
 });

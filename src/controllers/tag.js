@@ -6,12 +6,30 @@ import {byId, list, create, update} from '../service/tag';
 export default function() {
   let router = new Router();
 
-  router.get('/', function *() {
-    this.body = yield list({});
+  router.get('/', function *(next) {
+    let ctx = this;
+    yield passport.authenticate('bearer', function *(err, user) {
+      if (err) throw err;
+      if (user === false) {
+        ctx.throw('Not authorization', 401);
+      } else {
+        ctx.body = yield list({criteria: {'user': user._id}});;
+      }
+    }).call(this, next);
   });
-  router.get('/:id', function *() {
-    this.body = yield byId(this.params.id);
+
+  router.get('/:id', function *(next) {
+    let ctx = this;
+    yield passport.authenticate('bearer', function *(err, user) {
+      if (err) throw err;
+      if (user === false) {
+        ctx.throw('Not authorization', 401);
+      } else {
+        ctx.body = yield byId(this.params.id, user._id);
+      }
+    }).call(this, next);
   });
+
   router.post('/', function *(next) {
     let ctx = this;
     yield passport.authenticate('bearer', function *(err, user) {

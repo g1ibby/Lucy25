@@ -1,50 +1,52 @@
 import React, {Component, PropTypes} from 'react';
-import { Link } from 'react-router';
 import { Collapse } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import { routeActions } from 'react-router-redux';
 import MenuItem from './MenuItem';
 
-@connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     user: state.auth.user,
-    routing: state.routing
-  }),
+    routing: state.routing,
+    tags: state.tag.list,
+    error: state.tag.error
+  };
+}
+
+@connect(
+  mapStateToProps,
   {pushState: routeActions.push}
 )
 export default class Sidebar extends Component {
 
   static propTypes = {
     user: PropTypes.object,
+    tags: PropTypes.array.isRequired,
     pushState: PropTypes.func.isRequired
   };
-  handleClick = () => {
-    this.props.pushState('/profile');
-  };
   render() {
-    const user = this.props.user;
+    const {user, tags} = this.props;
     return (
       <aside className="aside">
         <div className="aside-inner">
           <nav className="sidebar">
             <ul className="nav">
-              <li className="has-user-block" onClick={this.handleClick}>
+              <li className="has-user-block">
                 <Collapse className="collapse in">
                   <div className="item user-block">
                     <div className="user-block-info">
-                      <b className="user-block-name">{user.username}
-                        <Link to="/profile" style={{'marginLeft': '5px'}}>
-                          <em className="icon-settings" />
-                        </Link>
-                      </b>
+                      <b className="user-block-name">{user.firstname} {user.lastname}</b>
                     </div>
                   </div>
                 </Collapse>
               </li>
+              <MenuItem to={'/collection/all'} img="icon-shuffle">Все</MenuItem>
               <li className="nav-heading">
-                <span>Меню</span>
+                <span>Мои коллекции</span>
               </li>
-              <MenuItem to="/home" img="icon-chart" key="1">Статиситка</MenuItem>
+              {
+                tags.map(item => <MenuItem to={`/collection/${item._id}`} img="icon-folder-alt" key={item._id}>{item.label}</MenuItem>)
+              }
             </ul>
           </nav>
         </div>

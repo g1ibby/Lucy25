@@ -110,19 +110,24 @@ export function load() {
 }
 
 export function login(username, password) {
+  console.log(username);
+  console.log(password);
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => {
       return new Promise((resolve, reject) => {
-        client.post('/auth', {
+        client.post('/oauth2/token', {
           data: {
             'username': username,
-            'password': password
+            'password': password,
+            'grant_type': 'password',
+            'client_id': 'toto',
+            'client_secret': 'secret'
           }
         }, false).then(
-          () => {
-            Cookies.set('access_token', 'faick');
-            Cookies.set('refresh_token', 'faick');
+          (result) => {
+            Cookies.set('access_token', result.access_token);
+            Cookies.set('refresh_token', result.refresh_token);
             resolve({login: true});
           },
           (error) => {

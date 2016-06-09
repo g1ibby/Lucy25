@@ -9,7 +9,7 @@ import {
 import Protected from 'components/Wrappers/Protected';
 import Public from 'components/Wrappers/Public';
 
-import Home from 'modules/Home/Home';
+import Bookmarks from 'modules/Bookmarks/Bookmarks';
 import Login from 'modules/Login/Login';
 
 
@@ -34,9 +34,8 @@ export default (store) => {
     <Route path="/" component={App}>
 
       <Route component={Protected} onEnter={requireLogin}>
-        <IndexRedirect to="/home"/>
-        <Route path="home" component={Home}/>
-
+        <IndexRedirect to="/collection/all" />
+        <Route path="collection(/:idCollection)" component={Bookmarks}/>
       </Route>
 
       <Route component={Public}>

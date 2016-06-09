@@ -1,22 +1,36 @@
 import Router from 'koa-router';
 const passport = require('koa-passport');
 
-import {byId, list, create, update} from '../service/article';
+import {byId, list, create, update} from '../service/bookmark';
 
 export default function() {
   let router = new Router();
 
-  router.get('/', function *() {
-    let page = (this.request.query.page > 0 ? this.request.query.page : 1) - 1;
-    let perPage = 5;
-    let options = {
-      perPage: perPage,
-      page: page
-    };
-    this.body = yield list(options);
+  router.get('/', function *(next) {
+    let ctx = this;
+    yield passport.authenticate('bearer', function *(err, user) {
+      if (err) throw err;
+      if (user === false) {
+        ctx.throw('Not authorization', 401);
+      } else {
+        const option = {};
+        if (ctx.request.query['filter[collection]']) {
+          option.tag = ctx.request.query['filter[collection]'];
+        }
+        ctx.body = yield list(option);
+      }
+    }).call(this, next);
   });
-  router.get('/:id', function *() {
-    this.body = yield byId(this.params.id);
+  router.get('/:id', function *(next) {
+    let ctx = this;
+    yield passport.authenticate('bearer', function *(err, user) {
+      if (err) throw err;
+      if (user === false) {
+        ctx.throw('Not authorization', 401);
+      } else {
+        ctx.body = yield byId(this.params.id);
+      }
+    }).call(this, next);
   });
   router.post('/', function *(next) {
     let ctx = this;

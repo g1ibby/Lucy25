@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let TagSchema = new mongoose.Schema({
   user: {type: Schema.ObjectId, ref: 'Users'},
   name: {type: String, default: '', trim: true},
-  color: {type: String, default: 'fbfbfb'},
+  label: {type: String, default: '', trim: true},
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date}
 }, {
@@ -22,5 +22,6 @@ TagSchema.pre('update', function() {
 
 // Validations
 TagSchema.path('name').required(true, 'Tag name cannot be blank');
+TagSchema.path('label').required(true, 'Tag label cannot be blank');
 
 mongoose.model('Tag', TagSchema);

@@ -42,6 +42,8 @@ require("./config/koa")(app, config, passport);
 // Routes
 require("./config/routes")(app, passport);
 
+// require('./src/generate_data.js');
+
 // Start app
 if (!module.parent) {
   app.listen(config.app.port);

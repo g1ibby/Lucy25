@@ -2,8 +2,9 @@
 var Router = require("koa-router");
 
 import authRouter from '../src/controllers/auth';
-import articleRouter from '../src/controllers/article';
+import bookmarkRouter from '../src/controllers/bookmark';
 import tagRouter from '../src/controllers/tag';
+import bootstrapRouter from '../src/controllers/bootstrap';
 
 module.exports = function(app, passport) {
   // register functions
@@ -24,8 +25,9 @@ module.exports = function(app, passport) {
     prefix: '/api'
   });
   commonRouter.use('/oauth2', authRouter().routes());
-  commonRouter.use('/articles', articleRouter().routes());
+  commonRouter.use('/bookmarks', bookmarkRouter().routes());
   commonRouter.use('/tags', tagRouter().routes());
+  commonRouter.use('/bootstrap', bootstrapRouter().routes());
 
   app.use(commonRouter.routes());
 };

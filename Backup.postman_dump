@@ -1,0 +1,581 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "2f09bb57-5652-b6c6-c4d3-76f27e229f55",
+			"name": "OAuth2",
+			"description": "",
+			"order": [
+				"24a9fae1-5cc3-72cf-0877-4cb84964f613",
+				"459461c8-c714-1d7e-56e9-163bc743f6e7"
+			],
+			"folders": [],
+			"timestamp": 1437911733049,
+			"synced": false,
+			"remote_id": 0,
+			"owner": "",
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": null,
+			"updatedAt": 1437937441829,
+			"write": true,
+			"requests": [
+				{
+					"id": "24a9fae1-5cc3-72cf-0877-4cb84964f613",
+					"headers": "",
+					"url": "http://localhost:3002/api/oauth2/token",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "username",
+							"value": "wss",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "pas",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "client_id",
+							"value": "toto",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1437934553370,
+					"name": "http://localhost:3002/api/oauth2/token",
+					"description": "",
+					"collectionId": "2f09bb57-5652-b6c6-c4d3-76f27e229f55",
+					"responses": []
+				},
+				{
+					"id": "459461c8-c714-1d7e-56e9-163bc743f6e7",
+					"headers": "",
+					"url": "http://localhost:3002/api/oauth2/reg",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "username",
+							"value": "wss",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "password",
+							"value": "pas",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "firstname",
+							"value": "Sergei",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "lastname",
+							"value": "Waribrus",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "email",
+							"value": "email@mail.ru",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1437941042347,
+					"name": "http://localhost:3002/api/oauth2/reg",
+					"description": "",
+					"collectionId": "2f09bb57-5652-b6c6-c4d3-76f27e229f55",
+					"responses": []
+				}
+			]
+		},
+		{
+			"id": "869dec1b-faa2-3e90-86d4-f84e2a9bf4ea",
+			"name": "Categories",
+			"description": "",
+			"order": [
+				"891b7382-5394-815f-a7d0-1ef7064dcb9b",
+				"3f5f53af-e0a1-a233-e1b6-ecd3b2c21c83",
+				"2cbd0e6a-39db-c211-1938-5b740ac86b19",
+				"456dac79-4517-2955-1388-9fcf4a5140c5"
+			],
+			"folders": [],
+			"timestamp": 1438359858147,
+			"synced": false,
+			"remote_id": 0,
+			"owner": 0,
+			"sharedWithTeam": false,
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": 1438359858147,
+			"updatedAt": 1438366040385,
+			"write": true,
+			"requests": [
+				{
+					"id": "2cbd0e6a-39db-c211-1938-5b740ac86b19",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/categories/55bba4a80d8886b355dd49cc",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "PUT",
+					"data": [
+						{
+							"key": "name",
+							"value": "Важная Едит",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366452133,
+					"name": "localhost:1337/api/categories - Update",
+					"description": "",
+					"collectionId": "869dec1b-faa2-3e90-86d4-f84e2a9bf4ea",
+					"responses": []
+				},
+				{
+					"id": "3f5f53af-e0a1-a233-e1b6-ecd3b2c21c83",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/categories/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "name",
+							"value": "Праздник",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438360767968,
+					"name": "localhost:1337/api/categories - Create",
+					"description": "",
+					"collectionId": "869dec1b-faa2-3e90-86d4-f84e2a9bf4ea",
+					"responses": []
+				},
+				{
+					"id": "456dac79-4517-2955-1388-9fcf4a5140c5",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/categories/55bba22c8504c64b54366116",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438360689961,
+					"name": "localhost:1337/api/categories - Get One",
+					"description": "",
+					"collectionId": "869dec1b-faa2-3e90-86d4-f84e2a9bf4ea",
+					"responses": []
+				},
+				{
+					"id": "891b7382-5394-815f-a7d0-1ef7064dcb9b",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/categories/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438359944055,
+					"name": "localhost:1337/api/categories - Get All",
+					"description": "",
+					"collectionId": "869dec1b-faa2-3e90-86d4-f84e2a9bf4ea",
+					"responses": []
+				}
+			]
+		},
+		{
+			"id": "99cbc9f7-7c71-961e-d720-590cc6571be1",
+			"name": "Types",
+			"description": "",
+			"order": [
+				"0f58aaed-440e-410a-c105-600a3566f040",
+				"5f27c9c6-f141-a770-d47f-36a2001202c4",
+				"07a862c5-50c1-941a-d563-eb4803a4a933",
+				"3438f274-f435-af79-bf2d-a39c29a0cfc3"
+			],
+			"folders": [],
+			"timestamp": 1438366009223,
+			"synced": false,
+			"remote_id": 0,
+			"owner": 0,
+			"sharedWithTeam": false,
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": 1438366009223,
+			"updatedAt": 1438366040401,
+			"write": true,
+			"requests": [
+				{
+					"id": "07a862c5-50c1-941a-d563-eb4803a4a933",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/categories/55bbba05b6b7d75262a1479c",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "PUT",
+					"data": [
+						{
+							"key": "name",
+							"value": "Edit type",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366449573,
+					"name": "localhost:1337/api/types - Update",
+					"description": "",
+					"collectionId": "99cbc9f7-7c71-961e-d720-590cc6571be1",
+					"responses": []
+				},
+				{
+					"id": "0f58aaed-440e-410a-c105-600a3566f040",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/types/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366098495,
+					"name": "localhost:1337/api/types - Get All",
+					"description": "",
+					"collectionId": "99cbc9f7-7c71-961e-d720-590cc6571be1",
+					"responses": []
+				},
+				{
+					"id": "3438f274-f435-af79-bf2d-a39c29a0cfc3",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/types/55bbba05b6b7d75262a1479c",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366405713,
+					"name": "localhost:1337/api/types - Get One",
+					"description": "",
+					"collectionId": "99cbc9f7-7c71-961e-d720-590cc6571be1",
+					"responses": []
+				},
+				{
+					"id": "5f27c9c6-f141-a770-d47f-36a2001202c4",
+					"headers": "Authorization: Bearer 581ce296578a1f6226374d3163f1547f33072fc0\n",
+					"url": "http://localhost:3002/api/types/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": [
+						{
+							"key": "name",
+							"value": "На одни час",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366212566,
+					"name": "localhost:1337/api/types - Create",
+					"description": "",
+					"collectionId": "99cbc9f7-7c71-961e-d720-590cc6571be1",
+					"responses": []
+				}
+			]
+		},
+		{
+			"id": "c6e6860a-8b04-f898-878e-576823fb2fe6",
+			"name": "Events",
+			"description": "",
+			"order": [
+				"82ba1519-0ab5-1d94-308a-9f6fe90c9704",
+				"3bd51d12-7a32-357b-be78-b646aa7ace91",
+				"9734692c-6281-b65d-e50f-b89d807ac336",
+				"c88ca9dc-5bb4-ce13-d764-1da92fe0da69"
+			],
+			"folders": [],
+			"timestamp": 1438366459022,
+			"synced": true,
+			"remote_id": 0,
+			"owner": 0,
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": null,
+			"updatedAt": 1438366478337,
+			"write": true,
+			"requests": [
+				{
+					"id": "3bd51d12-7a32-357b-be78-b646aa7ace91",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\nContent-Type: application/json\n",
+					"url": "http://localhost:3002/api/events/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": "{\n    \"title\": \"Первое событие\",\n    \"body\": \"Очень красивое описание этого события\",\n    \"categories\": [\"55bba4a80d8886b355dd49cc\", \"55bba22c8504c64b54366116\"],\n    \"types\": [\"55bbba05b6b7d75262a1479c\"]\n}",
+					"dataMode": "raw",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366660104,
+					"name": "localhost:1337/api/events - Create",
+					"description": "",
+					"collectionId": "c6e6860a-8b04-f898-878e-576823fb2fe6",
+					"responses": []
+				},
+				{
+					"id": "82ba1519-0ab5-1d94-308a-9f6fe90c9704",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/events/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366507015,
+					"name": "localhost:1337/api/events - Get All",
+					"description": "",
+					"collectionId": "c6e6860a-8b04-f898-878e-576823fb2fe6",
+					"responses": []
+				},
+				{
+					"id": "9734692c-6281-b65d-e50f-b89d807ac336",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/events/55bbbbc43840a7f562499564",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "PUT",
+					"data": [
+						{
+							"key": "title",
+							"value": "Тестовая новость 2",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366752438,
+					"name": "localhost:1337/api/events - Update",
+					"description": "",
+					"collectionId": "c6e6860a-8b04-f898-878e-576823fb2fe6",
+					"responses": []
+				},
+				{
+					"id": "c88ca9dc-5bb4-ce13-d764-1da92fe0da69",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/events/55bbbbc43840a7f562499564",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438366839021,
+					"name": "localhost:1337/api/events - Get One",
+					"description": "",
+					"collectionId": "c6e6860a-8b04-f898-878e-576823fb2fe6",
+					"responses": []
+				}
+			]
+		},
+		{
+			"id": "f1b0fbd0-55dd-983d-2fd5-f568efd86253",
+			"name": "News",
+			"description": "",
+			"order": [
+				"cb076267-aa1d-2188-c73d-536f6a8266d0",
+				"54c2851f-c4a3-34a9-0cb7-8f1ffcd1ef2d",
+				"27aec7f0-940a-8f4d-c9d0-beccfb2d6fd3",
+				"dc37c5b2-db11-fdb1-a452-4d073037d6d3"
+			],
+			"folders": [],
+			"timestamp": 1437936711790,
+			"synced": false,
+			"remote_id": 0,
+			"owner": 0,
+			"sharedWithTeam": false,
+			"subscribed": false,
+			"remoteLink": "",
+			"public": false,
+			"createdAt": 1437936711790,
+			"updatedAt": 1438360406817,
+			"write": true,
+			"requests": [
+				{
+					"id": "27aec7f0-940a-8f4d-c9d0-beccfb2d6fd3",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/news/55b6310e8cee889b3a05ca4c",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "PUT",
+					"data": [
+						{
+							"key": "title",
+							"value": "Тестовая новость 2",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "body",
+							"value": "Содержание для новости",
+							"type": "text",
+							"enabled": true
+						}
+					],
+					"dataMode": "urlencoded",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438003847584,
+					"name": "localhost:1337/api/articles - Update",
+					"description": "",
+					"collectionId": "f1b0fbd0-55dd-983d-2fd5-f568efd86253",
+					"responses": []
+				},
+				{
+					"id": "54c2851f-c4a3-34a9-0cb7-8f1ffcd1ef2d",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\nContent-Type: application/json\n",
+					"url": "http://localhost:3002/api/news/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "POST",
+					"data": "{\n    \"title\": \"Теставоя запись в JSON + categories\",\n    \"body\": \"Тело записи\",\n    \"categories\": [\"55bba4a80d8886b355dd49cc\", \"55bba22c8504c64b54366116\"]\n}",
+					"dataMode": "raw",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438364001046,
+					"name": "localhost:1337/api/articles - Create",
+					"description": "",
+					"collectionId": "f1b0fbd0-55dd-983d-2fd5-f568efd86253",
+					"responses": []
+				},
+				{
+					"id": "cb076267-aa1d-2188-c73d-536f6a8266d0",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/news/",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438002200360,
+					"name": "localhost:1337/api/articles - Get All",
+					"description": "",
+					"collectionId": "f1b0fbd0-55dd-983d-2fd5-f568efd86253",
+					"responses": []
+				},
+				{
+					"id": "dc37c5b2-db11-fdb1-a452-4d073037d6d3",
+					"headers": "Authorization: Bearer 46b2f8b7e542d2941a3c90a300041127cc839827\n",
+					"url": "http://localhost:3002/api/news/55b6310e8cee889b3a05ca4c",
+					"preRequestScript": "",
+					"pathVariables": {},
+					"method": "GET",
+					"data": [],
+					"dataMode": "params",
+					"version": 2,
+					"tests": "",
+					"currentHelper": "normal",
+					"helperAttributes": {},
+					"time": 1438003780847,
+					"name": "localhost:1337/api/articles - Get One",
+					"description": "",
+					"collectionId": "f1b0fbd0-55dd-983d-2fd5-f568efd86253",
+					"responses": []
+				}
+			]
+		}
+	],
+	"environments": [],
+	"headerPresets": [],
+	"globals": []
+}
