@@ -11,7 +11,7 @@ export default class ItemBookmark extends Component {
         <div className="row">
           <div className="col-xs-2">
             <a href="">
-               <img src="http://placehold.it/400x250/000/fff" className="img-responsive" />
+               <img src={bookmark.image} className="img-responsive" />
             </a>
           </div>
           <div className="col-xs-10">

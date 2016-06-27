@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import { routeActions } from 'react-router-redux';
 import ItemBookmark from './ItemBookmark';
 
+
 @asyncConnect([{
   deferred: false,
   promise: ({store: {dispatch}, params }) => {
@@ -35,10 +36,8 @@ export default class Bookmarks extends Component {
     console.log(bookmarks);
     return (
       <Content>
-        <Helmet title="Закладки"/>
-        <h3>Bookmarks
-          <small>Bookmarks Bookmarks Bookmarks</small>
-        </h3>
+        <Helmet title="Закладки" />
+        <h3 onClick={this.openDialog}>ВСЕ КАТЕГОРИИ</h3>
         <div className="row">
           {
             bookmarks.map(item => <ItemBookmark bookmark={item} key={item.id} />)

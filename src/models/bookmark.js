@@ -8,6 +8,7 @@ let BookmarkSchema = new mongoose.Schema({
   title: {type: String, default: '', trim: true},
   subtitle: {type: String, default: '', trim: true},
   body: {type: String, default: '', trim: true},
+  image: {type: String, default: 'http://placehold.it/400x250/000/fff'},
   tag: {type: Schema.ObjectId, ref: 'Tag'},
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date}

@@ -3,6 +3,7 @@ import { Collapse } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import { routeActions } from 'react-router-redux';
 import MenuItem from './MenuItem';
+import {logout} from 'redux/modules/auth';
 
 function mapStateToProps(state) {
   return {
@@ -15,17 +16,23 @@ function mapStateToProps(state) {
 
 @connect(
   mapStateToProps,
-  {pushState: routeActions.push}
+  {pushState: routeActions.push, logout: logout}
 )
 export default class Sidebar extends Component {
 
   static propTypes = {
     user: PropTypes.object,
     tags: PropTypes.array.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
+  };
+  handleLogout = (event) => {
+    event.preventDefault();
+    this.props.logout();
   };
   render() {
     const {user, tags} = this.props;
+    const faceImage = require('./04.jpg');
     return (
       <aside className="aside">
         <div className="aside-inner">
@@ -34,8 +41,15 @@ export default class Sidebar extends Component {
               <li className="has-user-block">
                 <Collapse className="collapse in">
                   <div className="item user-block">
+                    <div className="user-block-picture">
+                        <div className="user-block-status">
+                           <img src={faceImage} width="60" height="60" className="img-thumbnail img-circle" />
+                           <div className="circle circle-success circle-lg"></div>
+                        </div>
+                     </div>
                     <div className="user-block-info">
                       <b className="user-block-name">{user.firstname} {user.lastname}</b>
+                      <a href="#" onClick={this.handleLogout}>Выход</a>
                     </div>
                   </div>
                 </Collapse>
